@@ -1,0 +1,31 @@
+mat-dialog-content {
+  min-width: min(620px, 80vw);
+  padding-top: 16px;
+  overflow: visible;
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.fingerprint-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+
+.error-message {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid #fecdca;
+  border-radius: 4px;
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.fingerprint-value.invalid {
+  color: #b3261e;
+}

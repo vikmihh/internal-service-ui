@@ -1,0 +1,11 @@
+<section class="page">
+  <header class="page__header">
+    <h1>{{ title() }}</h1>
+    @if (subtitle()) {
+      <p>{{ subtitle() }}</p>
+    }
+    <div class="page__divider"></div>
+  </header>
+
+  <ng-content />
+</section>

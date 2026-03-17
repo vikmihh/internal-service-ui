@@ -1,0 +1,32 @@
+.table-card {
+  border-radius: 0;
+  border: none;
+}
+
+.keys-table {
+  width: 100%;
+  background: #fff;
+}
+
+.keys-table .mat-mdc-header-row {
+  background-color: #f9fbfd;
+}
+
+.key-cell {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.state {
+  padding: 20px 18px;
+  color: #6b7280;
+}

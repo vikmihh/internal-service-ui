@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Add new API key</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+      <mat-label>Paste your key here</mat-label>
+      <textarea
+        matInput
+        rows="10"
+        formControlName="keyValue"
+        placeholder="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... mari.karu@gmail.com"
+      ></textarea>
+
+      @if (form.controls.keyValue.invalid && form.controls.keyValue.touched) {
+        <mat-error>API key is required.</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="fingerprint-row">
+      <span>Key fingerprint:</span>
+      <span class="fingerprint-value" [class.invalid]="fingerprintState() === 'invalid'">
+        @switch (fingerprintState()) {
+          @case ('valid') {
+            {{ fingerprintPreview() }}
+          }
+          @case ('invalid') {
+            Unable to generate a fingerprint from the entered key.
+          }
+          @default {
+            Fingerprint will be generated after saving the key.
+          }
+        }
+      </span>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="saving()" (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" type="button" [disabled]="!canSave()" (click)="save()">
+    {{ saving() ? 'Saving...' : 'Save' }}
+  </button>
+</mat-dialog-actions>

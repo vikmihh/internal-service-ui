@@ -1,0 +1,55 @@
+<app-page-shell title="API keys" subtitle="Create and store your API keys">
+  <section>
+    <h2>My keys</h2>
+
+    <mat-card appearance="outlined" class="table-card">
+      @if (!keys().length) {
+        <div class="state">No API keys yet.</div>
+      } @else {
+        <table mat-table [dataSource]="keys()" [trackBy]="trackById" class="keys-table">
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let row">{{ row.createdDate | date: 'dd.MM.yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="usedEmail">
+            <th mat-header-cell *matHeaderCellDef>Used email</th>
+            <td mat-cell *matCellDef="let row">{{ row.usedEmail }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="keyValue">
+            <th mat-header-cell *matHeaderCellDef>Key</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="key-cell" [title]="row.keyValue">{{ row.keyValue }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                type="button"
+                aria-label="Delete API key"
+                [disabled]="deletingId() === row.id"
+                (click)="openDeleteDialog(row)"
+              >
+                <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      }
+    </mat-card>
+
+    <div class="actions-row">
+      <button mat-flat-button color="primary" type="button" (click)="openAddDialog()">
+        Add New
+        <mat-icon fontSet="material-symbols-outlined" iconPositionEnd>add</mat-icon>
+      </button>
+    </div>
+  </section>
+</app-page-shell>
