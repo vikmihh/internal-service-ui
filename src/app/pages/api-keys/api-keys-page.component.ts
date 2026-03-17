@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 
 import { PageShellComponent } from '../../shared/page-shell/page-shell.component';
@@ -15,6 +14,7 @@ import {
 } from './delete-api-key-dialog/delete-api-key-dialog.component';
 import { ApiKeysService } from './data-access/api-keys.service';
 import { ApiKey } from './data-access/api-keys.model';
+import { NotificationService } from '../../shared/service/notification.service';
 
 @Component({
   selector: 'app-api-keys-page',
@@ -26,7 +26,6 @@ import { ApiKey } from './data-access/api-keys.model';
     MatCardModule,
     MatDialogModule,
     MatIconModule,
-    MatSnackBarModule,
     MatTableModule,
   ],
   templateUrl: './api-keys-page.component.html',
@@ -36,7 +35,7 @@ import { ApiKey } from './data-access/api-keys.model';
 export class ApiKeysPageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly apiKeysService = inject(ApiKeysService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notificationService = inject(NotificationService);
 
   protected readonly displayedColumns = ['createdDate', 'usedEmail', 'keyValue', 'actions'];
   protected readonly keys = signal<ApiKey[]>([]);
@@ -45,7 +44,7 @@ export class ApiKeysPageComponent implements OnInit {
   ngOnInit(): void {
     this.apiKeysService.getAll().subscribe({
       next: (keys) => this.keys.set(keys),
-      error: () => this.showMessage('Unable to load API keys.'),
+      error: () => this.notificationService.show('Unable to load API keys.'),
     });
   }
 
@@ -63,7 +62,7 @@ export class ApiKeysPageComponent implements OnInit {
         }
 
         this.keys.update((items) => [...items, created]);
-        this.showMessage('API key added successfully.');
+        this.notificationService.show('API key added successfully.');
       });
   }
 
@@ -88,11 +87,11 @@ export class ApiKeysPageComponent implements OnInit {
             next: () => {
               this.keys.update((items) => items.filter((item) => item.id !== row.id));
               this.deletingId.set(null);
-              this.showMessage('API key deleted successfully.');
+              this.notificationService.show('API key deleted successfully.');
             },
             error: () => {
               this.deletingId.set(null);
-              this.showMessage('Unable to delete API key.');
+              this.notificationService.show('Unable to delete API key.');
             },
           });
       });
@@ -100,13 +99,5 @@ export class ApiKeysPageComponent implements OnInit {
 
   protected trackById(_: number, row: ApiKey): number {
     return row.id;
-  }
-
-  private showMessage(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
   }
 }
