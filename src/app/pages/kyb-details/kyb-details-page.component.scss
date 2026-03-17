@@ -1,0 +1,74 @@
+:host {
+  display: block;
+  min-height: 100%;
+  background: #f3f5f7;
+}
+
+:host ::ng-deep .mdc-text-field--outlined {
+  background-color: #fff;
+}
+
+.kyb-form,
+.form-section,
+.parent-company-fields,
+.question-list,
+.question-block {
+  display: grid;
+  gap: 18px;
+}
+
+.form-section h2 {
+  margin: 0;
+  padding-top: 24px;
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.section-divider {
+  border-top: 1px solid #d5dae1;
+}
+
+.question-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.question-row-separated {
+  padding-top: 24px;
+  border-top: 1px solid #d5dae1;
+}
+
+.yes-no-group {
+  display: inline-flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.question-error {
+  margin-top: -12px;
+  font-size: 12px;
+  color: #ba1a1a;
+}
+
+.country-field {
+  max-width: 320px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,222 @@
+<app-page-shell title="KYB details" [showDivider]="false">
+  <form class="kyb-form" [formGroup]="form" (ngSubmit)="submit()">
+    <section class="form-section">
+      <h2>Type of service</h2>
+
+      <div class="form-grid two-columns">
+        <mat-form-field appearance="outline">
+          <mat-label>Type of services you provide</mat-label>
+          <input matInput formControlName="serviceName" placeholder="Service name" />
+          <mat-error>Please check this field</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Target age range</mat-label>
+          <mat-select formControlName="targetAgeRange" placeholder="Select age group">
+            @for (option of ageRangeOptions; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Please check this field</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Service URL</mat-label>
+        <input matInput formControlName="serviceUrl" placeholder="service.com" />
+        <mat-error>Please check this field</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Please provide overview of the Business Model</mat-label>
+        <textarea
+          matInput
+          rows="5"
+          formControlName="businessModelOverview"
+          placeholder="Briefly describe your business model and services"
+        ></textarea>
+        <mat-error>Please check this field</mat-error>
+      </mat-form-field>
+
+      <div class="form-grid two-columns">
+        <mat-form-field appearance="outline">
+          <mat-label>Type of licence for the services provided (Optional)</mat-label>
+          <input matInput formControlName="serviceLicenseType" placeholder="Gaming licence" />
+          <mat-error>Please check this field</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>License number (Optional)</mat-label>
+          <input matInput formControlName="licenseNumber" placeholder="MGA/B2C/123/2025" />
+          <mat-error>Please check this field</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>License place of issue (Optional)</mat-label>
+        <input matInput formControlName="licensePlaceOfIssue" placeholder="Malta" />
+        <mat-error>Please check this field</mat-error>
+      </mat-form-field>
+    </section>
+
+    <section class="form-section">
+      <h2>Company ownership structure</h2>
+      <div class="section-divider"></div>
+      <div class="question-block">
+        <div class="question-row">
+          <p class="question-text">Is your company owned by another company?</p>
+          <mat-radio-group class="yes-no-group" formControlName="ownedByAnotherCompany">
+            @for (option of yesNoOptions; track option.value) {
+              <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+            }
+          </mat-radio-group>
+        </div>
+        @if (
+          form.controls.ownedByAnotherCompany.touched && form.controls.ownedByAnotherCompany.invalid
+        ) {
+          <div class="question-error">Please check this field</div>
+        }
+      </div>
+
+      @if (showParentCompanyFields()) {
+        <div class="parent-company-fields">
+          <mat-form-field appearance="outline">
+            <mat-label>Parent company name</mat-label>
+            <input
+              matInput
+              formControlName="parentCompanyName"
+              placeholder="Example Holding Ltd."
+            />
+            <mat-error>Please check this field</mat-error>
+          </mat-form-field>
+
+          <div class="form-grid two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Registered address</mat-label>
+              <input matInput formControlName="registeredAddress" placeholder="Narva mnt 5" />
+              <mat-error>Please check this field</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>City/town</mat-label>
+              <input matInput formControlName="cityOrTown" placeholder="Tallinn" />
+              <mat-error>Please check this field</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>State/county</mat-label>
+              <input matInput formControlName="stateOrCounty" placeholder="Harju County" />
+              <mat-error>Please check this field</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Postal code/zip code</mat-label>
+              <input matInput formControlName="postalCode" placeholder="10117" />
+              <mat-error>Please check this field</mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="country-field">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country" placeholder="Choose country">
+              @for (country of countryOptions; track country) {
+                <mat-option [value]="country">{{ country }}</mat-option>
+              }
+            </mat-select>
+            <mat-error>Please check this field</mat-error>
+          </mat-form-field>
+        </div>
+      }
+
+      <div class="question-list">
+        <div class="question-block">
+          <div class="question-row question-row-separated">
+            <p class="question-text">Is your company or the parent company publicly traded?</p>
+            <mat-radio-group class="yes-no-group" formControlName="publiclyTraded">
+              @for (option of yesNoOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+          @if (form.controls.publiclyTraded.touched && form.controls.publiclyTraded.invalid) {
+            <div class="question-error">Please check this field</div>
+          }
+        </div>
+
+        <div class="question-block">
+          <div class="question-row question-row-separated">
+            <p class="question-text">Is your company government or state owned?</p>
+            <mat-radio-group class="yes-no-group" formControlName="governmentOrStateOwned">
+              @for (option of yesNoOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+          @if (
+            form.controls.governmentOrStateOwned.touched &&
+            form.controls.governmentOrStateOwned.invalid
+          ) {
+            <div class="question-error">Please check this field</div>
+          }
+        </div>
+
+        <div class="question-block">
+          <div class="question-row question-row-separated">
+            <p class="question-text">Do you have shareholders above 10%?</p>
+            <mat-radio-group class="yes-no-group" formControlName="hasShareholdersAboveTenPercent">
+              @for (option of yesNoOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+          @if (
+            form.controls.hasShareholdersAboveTenPercent.touched &&
+            form.controls.hasShareholdersAboveTenPercent.invalid
+          ) {
+            <div class="question-error">Please check this field</div>
+          }
+        </div>
+
+        <div class="question-block">
+          <div class="question-row question-row-separated">
+            <p>Do you have an ultimate beneficial owner of the company?</p>
+            <mat-radio-group class="yes-no-group" formControlName="hasUltimateBeneficialOwner">
+              @for (option of yesNoOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+          @if (
+            form.controls.hasUltimateBeneficialOwner.touched &&
+            form.controls.hasUltimateBeneficialOwner.invalid
+          ) {
+            <div class="question-error">Please check this field</div>
+          }
+        </div>
+
+        <div class="question-block">
+          <div class="question-row question-row-separated">
+            <p class="question-text">
+              Is there a PEP (politically exposed person) involved in your company's leadership
+              team, shareholders or UBOs?
+            </p>
+            <mat-radio-group class="yes-no-group" formControlName="hasPepInvolved">
+              @for (option of yesNoOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+          @if (form.controls.hasPepInvolved.touched && form.controls.hasPepInvolved.invalid) {
+            <div class="question-error">Please check this field</div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Submitting...' : 'Submit' }}
+      </button>
+    </div>
+  </form>
+</app-page-shell>
