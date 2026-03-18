@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="dialog-title">System Action Details</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="dialog-divider" aria-hidden="true"></div>
+  <div class="details-grid">
+    @for (row of detailRows; track row.label) {
+      <div class="label">{{ row.label }}</div>
+      <div class="value">{{ row.value }}</div>
+    }
+  </div>
+  <div class="dialog-divider" aria-hidden="true"></div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close type="button" class="close-button">Close</button>
+</mat-dialog-actions>

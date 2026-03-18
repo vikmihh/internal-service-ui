@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f3f5f7;
+}
+
+.page-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 32px 48px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  margin-bottom: 40px;
+
+  h1 {
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 50px;
+}
+
+.employee-field {
+  width: 420px;
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.search-button {
+  border-radius: 10px;
+  background: #7b45a9 !important;
+}
+
+app-access-history-section + app-system-actions-section {
+  display: block;
+  margin-top: 35px;
+}

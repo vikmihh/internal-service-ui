@@ -24,3 +24,30 @@ input,
 textarea {
   font: inherit;
 }
+
+app-employee-access-activity-page {
+  .mat-mdc-text-field-wrapper {
+    background: #fff;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: #b6beca;
+  }
+
+  .mat-focused .mdc-notched-outline__leading,
+  .mat-focused .mdc-notched-outline__notch,
+  .mat-focused .mdc-notched-outline__trailing {
+    border-color: #7b45a9 !important;
+  }
+
+  .mat-focused .mdc-floating-label {
+    color: #7b45a9 !important;
+  }
+
+  .mat-sort-header-arrow {
+    opacity: 1 !important;
+    color: #fff;
+  }
+}

@@ -18,4 +18,11 @@ export const routes: Routes = [
         (m) => m.KybDetailsPageComponent,
       ),
   },
+  {
+    path: 'employee-access-activity',
+    loadComponent: () =>
+      import('./pages/employee-access-activity/employee-access-activity-page.component').then(
+        (m) => m.EmployeeAccessActivityPageComponent,
+      ),
+  },
 ];

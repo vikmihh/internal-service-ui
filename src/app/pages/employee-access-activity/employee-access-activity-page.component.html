@@ -1,0 +1,52 @@
+<div class="page-content">
+  <header class="page-header">
+    <h1>Employee Access Activity</h1>
+  </header>
+
+  <section class="search-section">
+    <mat-form-field appearance="outline" class="employee-field">
+      <mat-label>Employee Identifier</mat-label>
+      <input
+        matInput
+        type="text"
+        [formControl]="employeeControl"
+        [matAutocomplete]="employeeAutocomplete"
+        placeholder="Enter employee details (57385763, Mari Uiga, PO)"
+      />
+      <mat-autocomplete
+        #employeeAutocomplete="matAutocomplete"
+        [displayWith]="displayEmployee"
+        autoActiveFirstOption
+      >
+        @for (employee of filteredEmployees$ | async; track employee.employeeId) {
+          <mat-option [value]="employee">
+            {{ employee.displayLabel }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-flat-button type="button" class="search-button" (click)="search()">
+      <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+      Search
+    </button>
+  </section>
+
+  <app-access-history-section
+    [expanded]="accessHistoryExpanded()"
+    [selectedEmployeeId]="selectedEmployeeId()"
+    [accessHistory]="accessHistory()"
+    [expandedIds]="expandedAccessHistoryIds()"
+    (toggleSection)="toggleAccessHistorySection()"
+    (toggleRow)="toggleAccessHistoryRow($event)"
+  />
+
+  <app-system-actions-section
+    [expanded]="systemActionsExpanded()"
+    [selectedEmployeeId]="selectedEmployeeId()"
+    [systemActions]="systemActionsDataSource.data"
+    [tableFiltersForm]="tableFiltersForm"
+    (toggleSection)="toggleSystemActionsSection()"
+    (openDetails)="openDetails($event)"
+  />
+</div>

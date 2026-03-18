@@ -1,0 +1,91 @@
+<section class="content-section">
+  <div class="section-header">
+    <h2>Access History</h2>
+
+    <button mat-icon-button type="button" class="section-toggle" (click)="onToggleSection()">
+      <mat-icon fontSet="material-symbols-outlined">
+        {{ expanded() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+      </mat-icon>
+    </button>
+  </div>
+
+  @if (expanded()) {
+    <div>
+      @if (!selectedEmployeeId()) {
+        <div class="state-empty">Select an employee above to view access history.</div>
+      } @else if (!accessHistory().length) {
+        <div class="state-empty">No access history found.</div>
+      } @else {
+        @for (item of accessHistory(); track item.id) {
+          <div class="history-row">
+            @if (isRowExpanded(item.id)) {
+              <div class="history-row-expanded">
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="row-toggle"
+                  (click)="onToggleRow(item.id)"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">keyboard_arrow_down</mat-icon>
+                </button>
+
+                <div class="history-expanded-grid">
+                  <div class="history-status-column">
+                    <span class="detail-label">Status</span>
+                    <span
+                      class="status"
+                      [class.status-enabled]="isEnabled(item.status)"
+                      [class.status-disabled]="isDisabled(item.status)"
+                    >
+                      {{ statusLabels[item.status] ?? item.status }}
+                    </span>
+                  </div>
+
+                  @for (column of accessHistoryDetailColumns; track $index) {
+                    <div class="history-details-column">
+                      @for (field of column; track field.key) {
+                        <div class="detail-item detail-item-inline">
+                          <span class="detail-label">{{ field.label }}:</span>
+                          <span>{{ item[field.key] }}</span>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            } @else {
+              <div class="history-row-summary">
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="row-toggle"
+                  (click)="onToggleRow(item.id)"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">keyboard_arrow_right</mat-icon>
+                </button>
+
+                <div class="summary-item">
+                  <span class="summary-label">Status</span>
+                  <span
+                    class="status"
+                    [class.status-enabled]="isEnabled(item.status)"
+                    [class.status-disabled]="isDisabled(item.status)"
+                  >
+                    {{ statusLabels[item.status] ?? item.status }}
+                  </span>
+                </div>
+
+                @for (field of accessHistorySummaryFields; track field.key) {
+                  <div class="summary-item">
+                    <span class="summary-label">{{ field.label }}</span>
+                    <span>{{ item[field.key] }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  }
+</section>

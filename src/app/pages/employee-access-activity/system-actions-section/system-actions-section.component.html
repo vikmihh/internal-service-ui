@@ -1,0 +1,70 @@
+<section class="content-section system-actions-section">
+  <div class="section-header">
+    <h2>History of System Actions</h2>
+
+    <button mat-icon-button type="button" class="section-toggle" (click)="onToggleSection()">
+      <mat-icon fontSet="material-symbols-outlined">
+        {{ expanded() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+      </mat-icon>
+    </button>
+  </div>
+
+  @if (expanded()) {
+    <div class="flat-section">
+      @if (!selectedEmployeeId()) {
+        <div class="state-empty">Select an employee above to view system action history.</div>
+      } @else if (!systemActions().length) {
+        <div class="state-empty">No system actions found.</div>
+      } @else {
+        <div class="table-wrapper">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            [trackBy]="trackBySystemActionId"
+            class="actions-table"
+          >
+            @for (column of systemActionColumns; track column.key) {
+              <ng-container [matColumnDef]="column.key">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ column.label }}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row[column.key] }}
+                </td>
+              </ng-container>
+
+              <ng-container [matColumnDef]="column.key + 'Filter'">
+                <th mat-header-cell *matHeaderCellDef>
+                  <input matInput [formControl]="tableFiltersForm().controls[column.key]" />
+                </th>
+              </ng-container>
+            }
+
+            <ng-container matColumnDef="view">
+              <th mat-header-cell *matHeaderCellDef class="view-header"></th>
+              <td mat-cell *matCellDef="let row" class="view-cell">
+                <button
+                  mat-icon-button
+                  type="button"
+                  aria-label="View system action details"
+                  (click)="onOpenDetails(row)"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">visibility</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="viewFilter">
+              <th mat-header-cell *matHeaderCellDef class="view-header"></th>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</section>
