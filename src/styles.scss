@@ -28,3 +28,9 @@ html {
   --mdc-text-button-container-shape: 4px;
   --mdc-protected-button-container-shape: 4px;
 }
+
+app-company-details {
+  .mat-mdc-text-field-wrapper {
+    background-color: white;
+  }
+}

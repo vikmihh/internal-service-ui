@@ -1,0 +1,249 @@
+<div class="page-container">
+  <h1 class="page-title">Company details</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Section 1: Company identification -->
+    <section class="form-section">
+      <h2 class="section-title">Company identification</h2>
+
+      <div class="field-full">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Company (legal) name</mat-label>
+          <input matInput formControlName="companyName" placeholder="Name of company" />
+          @if (form.controls.companyName.hasError('required')) {
+            <mat-error>Company name is required</mat-error>
+          } @else if (form.controls.companyName.hasError('minlength')) {
+            <mat-error>Minimum 2 characters required</mat-error>
+          } @else if (form.controls.companyName.hasError('maxlength')) {
+            <mat-error>Maximum 200 characters allowed</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Company registration code</mat-label>
+          <input matInput formControlName="companyRegistrationCode" placeholder="AB123456" />
+          @if (form.controls.companyRegistrationCode.hasError('required')) {
+            <mat-error>Registration code is required</mat-error>
+          } @else if (form.controls.companyRegistrationCode.hasError('minlength')) {
+            <mat-error>Minimum 2 characters required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Tax ID number (VAT, GST, or equivalent)</mat-label>
+          <input matInput formControlName="taxIdNumber" placeholder="X1234567890" />
+          @if (form.controls.taxIdNumber.hasError('required')) {
+            <mat-error>Tax ID is required</mat-error>
+          } @else if (form.controls.taxIdNumber.hasError('minlength')) {
+            <mat-error>Minimum 2 characters required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Corporate URL</mat-label>
+          <input matInput formControlName="corporateUrl" placeholder="webside.com" />
+          @if (form.controls.corporateUrl.hasError('required')) {
+            <mat-error>Corporate URL is required</mat-error>
+          } @else if (form.controls.corporateUrl.hasError('url')) {
+            <mat-error>Enter a valid URL</mat-error>
+          } @else if (form.controls.corporateUrl.hasError('maxlength')) {
+            <mat-error>URL is too long</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Date of company incorporation</mat-label>
+          <input
+            matInput
+            [matDatepicker]="datePicker"
+            formControlName="dateOfIncorporation"
+            placeholder="DD/MM/YYYY"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="datePicker" />
+          <mat-datepicker #datePicker />
+          @if (form.controls.dateOfIncorporation.hasError('required')) {
+            <mat-error>Date of incorporation is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </section>
+
+    <!-- Section 2: Registration address -->
+    <section class="form-section">
+      <h2 class="section-title">Registration address</h2>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Registered address</mat-label>
+          <input matInput formControlName="registeredAddress" placeholder="Kyiv Pst. 766/63A" />
+          @if (form.controls.registeredAddress.hasError('required')) {
+            <mat-error>Registered address is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>City/town</mat-label>
+          <input matInput formControlName="cityOrTown" placeholder="Tallinn" />
+          @if (form.controls.cityOrTown.hasError('required')) {
+            <mat-error>City/town is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>State/county</mat-label>
+          <input matInput formControlName="stateOrCounty" placeholder="Harjumaa" />
+          @if (form.controls.stateOrCounty.hasError('required')) {
+            <mat-error>State/county is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Postal code/zip code</mat-label>
+          <input matInput formControlName="postalCode" placeholder="123456" />
+          @if (form.controls.postalCode.hasError('required')) {
+            <mat-error>Postal code is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="field-half">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Country (Country of Company Incorporation)</mat-label>
+          <mat-select formControlName="country">
+            @for (c of countries; track c.code) {
+              <mat-option [value]="c.code">{{ c.name }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.country.hasError('required')) {
+            <mat-error>Country is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </section>
+
+    <!-- Section 3: Primary contact person -->
+    <section class="form-section">
+      <h2 class="section-title">Primary contact person</h2>
+      <p class="section-description">
+        Please provide us with up-to-date contact info so we can reach you in case of urgent
+        requests or end user concerns.
+      </p>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Name of primary contact person</mat-label>
+          <input matInput formControlName="primaryContactName" placeholder="Firstname Lastname" />
+          @if (form.controls.primaryContactName.hasError('required')) {
+            <mat-error>Contact name is required</mat-error>
+          } @else if (form.controls.primaryContactName.hasError('minlength')) {
+            <mat-error>Minimum 2 characters required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Phone number of primary contact person</mat-label>
+          <input
+            matInput
+            formControlName="primaryContactPhone"
+            placeholder="+372 555 555 555"
+            type="tel"
+          />
+          @if (form.controls.primaryContactPhone.hasError('required')) {
+            <mat-error>Phone number is required</mat-error>
+          } @else if (form.controls.primaryContactPhone.hasError('pattern')) {
+            <mat-error>Enter a valid phone number</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="field-half">
+        <mat-form-field appearance="outline" floatLabel="always" subscriptSizing="dynamic">
+          <mat-label>Email of primary contact person</mat-label>
+          <input
+            matInput
+            formControlName="primaryContactEmail"
+            placeholder="contact@contact.com"
+            type="email"
+          />
+          @if (form.controls.primaryContactEmail.hasError('required')) {
+            <mat-error>Email is required</mat-error>
+          } @else if (form.controls.primaryContactEmail.hasError('email')) {
+            <mat-error>Enter a valid email address</mat-error>
+          } @else if (form.controls.primaryContactEmail.hasError('maxlength')) {
+            <mat-error>Email is too long</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </section>
+
+    <!-- Toggle: Terms and Conditions -->
+    <mat-divider />
+
+    <div class="toggle-section">
+      <div class="toggle-row">
+        <span class="toggle-question"
+          >Do you have Terms and Conditions published in your website?</span
+        >
+        <mat-radio-group formControlName="hasTermsAndConditions" class="toggle-group">
+          <mat-radio-button [value]="false">No</mat-radio-button>
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      @if (showTnCUrl()) {
+        <div class="conditional-url">
+          <p class="conditional-label">Please provide the Terms and Conditions link:</p>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="termsAndConditionsUrl" placeholder="URL" />
+            @if (form.controls.termsAndConditionsUrl.hasError('required')) {
+              <mat-error>URL is required</mat-error>
+            } @else if (form.controls.termsAndConditionsUrl.hasError('url')) {
+              <mat-error>Enter a valid URL</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      }
+    </div>
+
+    <!-- Toggle: Privacy Policy -->
+    <mat-divider />
+
+    <div class="toggle-section">
+      <div class="toggle-row">
+        <span class="toggle-question">Do you have a Privacy Policy published in your website?</span>
+        <mat-radio-group formControlName="hasPrivacyPolicy" class="toggle-group">
+          <mat-radio-button [value]="false">No</mat-radio-button>
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      @if (showPrivacyUrl()) {
+        <div class="conditional-url">
+          <p class="conditional-label">Please provide the Privacy Policy link:</p>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="privacyPolicyUrl" placeholder="URL" />
+            @if (form.controls.privacyPolicyUrl.hasError('required')) {
+              <mat-error>URL is required</mat-error>
+            } @else if (form.controls.privacyPolicyUrl.hasError('url')) {
+              <mat-error>Enter a valid URL</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      }
+    </div>
+
+    <mat-divider />
+
+    <div class="form-actions">
+      <button mat-flat-button type="submit" [disabled]="formInvalid() || submitting()">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
