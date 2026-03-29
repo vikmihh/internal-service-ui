@@ -1,0 +1,50 @@
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <input matInput [value]="countryCode" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Limit Name</mat-label>
+      <input matInput formControlName="limitName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Period Type</mat-label>
+      <mat-select formControlName="periodType">
+        @for (type of periodTypes; track type) {
+          <mat-option [value]="type">{{ type | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Period Unit</mat-label>
+      <mat-select formControlName="periodUnit">
+        @for (unit of periodUnits; track unit) {
+          <mat-option [value]="unit">{{ unit | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Limit Amount</mat-label>
+      <input matInput type="number" step="1" formControlName="limitAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>UI Messaging Type</mat-label>
+      <mat-select formControlName="uiMessagingType">
+        @for (type of uiMessagingTypes; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button (click)="save()" [disabled]="saving()">Save</button>
+</mat-dialog-actions>

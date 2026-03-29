@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  padding: 40px 48px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-title {
+  margin: 0 0 4px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--mat-sys-on-surface);
+}
+
+.page-subtitle {
+  margin: 0 0 16px;
+  font-size: 0.875rem;
+  color: var(--mat-sys-outline);
+}
+
+.country-section {
+  margin-top: 24px;
+}
+
+.country-field {
+  width: 240px;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 24px 0 8px;
+  color: var(--mat-sys-on-surface);
+}
+
+.limits-table {
+  width: 100%;
+}
+
+.ui-messaging-cell {
+  font-weight: 700;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

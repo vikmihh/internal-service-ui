@@ -1,0 +1,12 @@
+.dialog-prompt {
+  margin: 0 0 16px;
+  font-size: 1rem;
+}
+
+.dialog-form {
+  min-width: 320px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
