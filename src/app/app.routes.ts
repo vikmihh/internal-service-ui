@@ -12,5 +12,12 @@ export const routes: Routes = [
         (m) => m.CompanyDetailsComponent,
       ),
   },
+  {
+    path: 'employee-profile-change-audit',
+    loadComponent: () =>
+      import('./pages/employee-profile-change-audit/employee-profile-change-audit.component').then(
+        (m) => m.EmployeeProfileChangeAuditComponent,
+      ),
+  },
   { path: '', redirectTo: 'limits', pathMatch: 'full' },
 ];

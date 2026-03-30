@@ -1,0 +1,173 @@
+:host {
+  display: flex;
+  justify-content: center;
+  background-color: var(--mat-app-surface-container-lowest, #f2f2f2);
+  min-height: 100vh;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 24px;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--mat-app-on-surface);
+  margin: 0;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.search-field {
+  width: 400px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--mat-app-on-surface);
+}
+
+.section-body {
+  padding: 8px 0;
+}
+
+.placeholder-text {
+  margin: 0;
+  padding: 16px 0;
+  font-size: 0.875rem;
+  color: var(--mat-app-on-surface-variant);
+}
+
+// Recent profile change rows — CSS Grid for aligned columns
+.change-row {
+  display: grid;
+  // Collapsed: expand-btn (auto) + status (fixed) + 3 equal content columns
+  grid-template-columns: auto 80px repeat(3, 1fr);
+  align-items: center;
+  gap: 0 20px;
+  padding: 12px 0;
+  cursor: pointer;
+  color: var(--mat-app-on-surface);
+
+  // Expanded: expand-btn (auto) + status (fixed) + 2 equal detail columns
+  &.is-expanded {
+    grid-template-columns: auto 80px 1fr 1fr;
+    align-items: start;
+    padding: 16px 0;
+  }
+}
+
+.row-expand-btn {
+  flex-shrink: 0;
+}
+
+.status-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+// Stacked label above value — used for the Status column
+.stacked-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+// Inline label:value pairs — used in both collapsed and expanded rows (matches Figma)
+.inline-field {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+// Labels — light grey, small
+.field-label {
+  font-size: 0.75rem;
+  color: #9e9e9e;
+  white-space: nowrap;
+}
+
+// Values — normal weight near-black
+.field-value {
+  font-size: 0.875rem;
+  color: var(--mat-app-on-surface);
+}
+
+// Expanded detail columns — stacked vertically
+.details-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// Table section
+.table-section-body {
+  padding: 0;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.audit-table {
+  width: 100%;
+}
+
+.filter-cell-inner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 6px;
+  font-size: 0.8125rem;
+  border: 1px solid var(--mat-app-outline-variant);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--mat-app-on-surface);
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: var(--mat-app-primary);
+  }
+}
+
+.filter-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--mat-app-on-surface-variant);
+  flex-shrink: 0;
+}

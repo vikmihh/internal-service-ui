@@ -1,0 +1,288 @@
+<div class="page-container">
+  <h1 class="page-title">Employee Profile Change Audit</h1>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+      <mat-label>Employee Identifier</mat-label>
+      <input
+        matInput
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+        placeholder="Enter employee details (57385763, Mari Uiga, PO)"
+        (input)="onInputChange()"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="onEmployeeSelected($event)"
+      >
+        @for (option of autocompleteOptions(); track option.employeeId) {
+          <mat-option [value]="option">{{ option.displayLabel }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-flat-button [disabled]="!selectedEmployee()" (click)="search()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </div>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <!-- Recent Profile Changes -->
+  <div class="section-wrapper">
+    <div
+      class="section-header"
+      role="button"
+      tabindex="0"
+      (click)="toggleRecentChanges()"
+      (keyup.enter)="toggleRecentChanges()"
+    >
+      <span class="section-title">Recent Profile Changes</span>
+      <button
+        mat-icon-button
+        type="button"
+        color="primary"
+        (click)="$event.stopPropagation(); toggleRecentChanges()"
+      >
+        <mat-icon>{{ recentChangesExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </button>
+    </div>
+    <mat-divider />
+
+    @if (recentChangesExpanded()) {
+      <div class="section-body">
+        @if (!hasSearched()) {
+          <p class="placeholder-text">Search for an employee to see data.</p>
+        } @else if (recentChanges().length === 0) {
+          <p class="placeholder-text">No recent profile changes found.</p>
+        } @else {
+          @for (item of recentChanges(); track item.id; let last = $last) {
+            <div
+              class="change-row"
+              [class.is-expanded]="isRowExpanded(item.id)"
+              role="button"
+              tabindex="0"
+              (click)="toggleRow(item.id)"
+              (keyup.enter)="toggleRow(item.id)"
+            >
+              <button
+                mat-icon-button
+                type="button"
+                color="primary"
+                class="row-expand-btn"
+                (click)="$event.stopPropagation(); toggleRow(item.id)"
+              >
+                <mat-icon>{{ isRowExpanded(item.id) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+              </button>
+
+              <div class="stacked-field">
+                <span class="field-label">Status:</span>
+                <span class="status-value" [ngClass]="'status-' + item.status.toLowerCase()">{{
+                  item.status
+                }}</span>
+              </div>
+
+              @if (!isRowExpanded(item.id)) {
+                <div class="inline-field">
+                  <span class="field-label">Field:</span>
+                  <span class="field-value">{{ item.field }}</span>
+                </div>
+                <div class="inline-field">
+                  <span class="field-label">Changed From:</span>
+                  <span class="field-value">{{ item.changedFrom }}</span>
+                </div>
+                <div class="inline-field">
+                  <span class="field-label">Changed To:</span>
+                  <span class="field-value">{{ item.changedTo }}</span>
+                </div>
+              } @else {
+                <div class="details-col">
+                  <div class="inline-field">
+                    <span class="field-label">Field:</span>
+                    <span class="field-value">{{ item.field }}</span>
+                  </div>
+                  <div class="inline-field">
+                    <span class="field-label">Changed From:</span>
+                    <span class="field-value">{{ item.changedFrom }}</span>
+                  </div>
+                  <div class="inline-field">
+                    <span class="field-label">Changed To:</span>
+                    <span class="field-value">{{ item.changedTo }}</span>
+                  </div>
+                </div>
+                <div class="details-col">
+                  <div class="inline-field">
+                    <span class="field-label">Updated On:</span>
+                    <span class="field-value">{{ item.updatedOn }}</span>
+                  </div>
+                  <div class="inline-field">
+                    <span class="field-label">Modified By:</span>
+                    <span class="field-value">{{ item.modifiedBy }}</span>
+                  </div>
+                  <div class="inline-field">
+                    <span class="field-label">Approval Required:</span>
+                    <span class="field-value">{{ item.approvalRequired }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+            @if (!last) {
+              <mat-divider />
+            }
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <!-- History of System Actions -->
+  <div class="section-wrapper">
+    <div
+      class="section-header"
+      role="button"
+      tabindex="0"
+      (click)="toggleSystemActions()"
+      (keyup.enter)="toggleSystemActions()"
+    >
+      <span class="section-title">History of System Actions</span>
+      <button
+        mat-icon-button
+        type="button"
+        color="primary"
+        (click)="$event.stopPropagation(); toggleSystemActions()"
+      >
+        <mat-icon>{{ systemActionsExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </button>
+    </div>
+    <mat-divider />
+
+    @if (systemActionsExpanded()) {
+      <div class="section-body table-section-body">
+        @if (!hasSearched()) {
+          <p class="placeholder-text">Search for an employee to see data.</p>
+        } @else {
+          <div class="table-wrapper">
+            <table
+              mat-table
+              [dataSource]="filteredSortedActions()"
+              matSort
+              (matSortChange)="onSortChange($event)"
+              class="audit-table"
+            >
+              <!-- Timestamp -->
+              <ng-container matColumnDef="timestamp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+                <td mat-cell *matCellDef="let row">{{ row.timestamp }}</td>
+              </ng-container>
+              <ng-container matColumnDef="f_timestamp">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="filter-cell-inner">
+                    <input
+                      class="filter-input"
+                      [value]="columnFilters()['timestamp']"
+                      (input)="setColumnFilter('timestamp', $event)"
+                    />
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                  </div>
+                </th>
+              </ng-container>
+
+              <!-- Field -->
+              <ng-container matColumnDef="field">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Field</th>
+                <td mat-cell *matCellDef="let row">{{ row.field }}</td>
+              </ng-container>
+              <ng-container matColumnDef="f_field">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="filter-cell-inner">
+                    <input
+                      class="filter-input"
+                      [value]="columnFilters()['field']"
+                      (input)="setColumnFilter('field', $event)"
+                    />
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                  </div>
+                </th>
+              </ng-container>
+
+              <!-- Modified By -->
+              <ng-container matColumnDef="modifiedBy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified By</th>
+                <td mat-cell *matCellDef="let row">{{ row.modifiedBy }}</td>
+              </ng-container>
+              <ng-container matColumnDef="f_modifiedBy">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="filter-cell-inner">
+                    <input
+                      class="filter-input"
+                      [value]="columnFilters()['modifiedBy']"
+                      (input)="setColumnFilter('modifiedBy', $event)"
+                    />
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                  </div>
+                </th>
+              </ng-container>
+
+              <!-- Action -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                <td mat-cell *matCellDef="let row">{{ row.action }}</td>
+              </ng-container>
+              <ng-container matColumnDef="f_action">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="filter-cell-inner">
+                    <input
+                      class="filter-input"
+                      [value]="columnFilters()['action']"
+                      (input)="setColumnFilter('action', $event)"
+                    />
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                  </div>
+                </th>
+              </ng-container>
+
+              <!-- Approval Needed -->
+              <ng-container matColumnDef="approvalNeeded">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approval needed</th>
+                <td mat-cell *matCellDef="let row">{{ row.approvalNeeded }}</td>
+              </ng-container>
+              <ng-container matColumnDef="f_approvalNeeded">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="filter-cell-inner">
+                    <input
+                      class="filter-input"
+                      [value]="columnFilters()['approvalNeeded']"
+                      (input)="setColumnFilter('approvalNeeded', $event)"
+                    />
+                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                  </div>
+                </th>
+              </ng-container>
+
+              <!-- View Action -->
+              <ng-container matColumnDef="viewAction">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <button mat-icon-button type="button" (click)="openDetails(row)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="f_viewAction">
+                <th mat-header-cell *matHeaderCellDef></th>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
