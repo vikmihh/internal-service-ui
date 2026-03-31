@@ -35,7 +35,6 @@ app-company-details {
   }
 }
 
-// Employee Profile Change Audit — scoped violet/green theme so other pages keep blue
 app-employee-profile-change-audit {
   @include mat.theme(
     (
@@ -47,17 +46,14 @@ app-employee-profile-change-audit {
     )
   );
 
-  // Field label — light grey
   .field-label {
     color: #9e9e9e !important;
   }
 
-  // Field value — near-black, normal weight
   .field-value {
     color: var(--mat-app-on-surface) !important;
   }
 
-  // Status badge colours — class applied via [ngClass]
   .status-value {
     font-weight: 600;
 
@@ -70,14 +66,12 @@ app-employee-profile-change-audit {
     }
   }
 
-  // Table header — solid purple background with white text
   .audit-table {
     --mat-table-header-container-color: #7c4dff;
     --mat-table-row-item-label-text-color: var(--mat-app-on-surface);
   }
 
   .mat-mdc-header-row:not(.filter-row) {
-    // Override the header cells
     .mat-mdc-header-cell {
       background-color: #7c4dff !important;
       color: #ffffff !important;
@@ -95,7 +89,6 @@ app-employee-profile-change-audit {
     }
   }
 
-  // Filter row — light surface background
   .mat-mdc-header-row.filter-row .mat-mdc-header-cell {
     background-color: var(--mat-app-surface-container) !important;
     padding: 4px 8px !important;
@@ -103,7 +96,6 @@ app-employee-profile-change-audit {
   }
 }
 
-// Audit dialog panel — apply violet theme so the Close button uses violet primary
 .audit-dialog {
   @include mat.theme(
     (

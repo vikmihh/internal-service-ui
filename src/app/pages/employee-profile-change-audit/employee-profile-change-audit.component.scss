@@ -64,10 +64,8 @@
   color: var(--mat-app-on-surface-variant);
 }
 
-// Recent profile change rows — CSS Grid for aligned columns
 .change-row {
   display: grid;
-  // Collapsed: expand-btn (auto) + status (fixed) + 3 equal content columns
   grid-template-columns: auto 80px repeat(3, 1fr);
   align-items: center;
   gap: 0 20px;
@@ -75,7 +73,6 @@
   cursor: pointer;
   color: var(--mat-app-on-surface);
 
-  // Expanded: expand-btn (auto) + status (fixed) + 2 equal detail columns
   &.is-expanded {
     grid-template-columns: auto 80px 1fr 1fr;
     align-items: start;
@@ -92,14 +89,12 @@
   font-weight: 600;
 }
 
-// Stacked label above value — used for the Status column
 .stacked-field {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-// Inline label:value pairs — used in both collapsed and expanded rows (matches Figma)
 .inline-field {
   display: flex;
   flex-direction: row;
@@ -108,27 +103,23 @@
   flex-wrap: wrap;
 }
 
-// Labels — light grey, small
 .field-label {
   font-size: 0.75rem;
   color: #9e9e9e;
   white-space: nowrap;
 }
 
-// Values — normal weight near-black
 .field-value {
   font-size: 0.875rem;
   color: var(--mat-app-on-surface);
 }
 
-// Expanded detail columns — stacked vertically
 .details-col {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-// Table section
 .table-section-body {
   padding: 0;
 }
