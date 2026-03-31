@@ -8,7 +8,7 @@ export const SYSTEM_ACTION_COLUMNS = [
   { key: 'resultCode', label: 'Result Code' },
 ] as const;
 
-export const ACCESS_STATUS_LABELS: Readonly<Record<string, string>> = {
+export const ACCESS_STATUS_LABELS: Readonly<Record<string, string | undefined>> = {
   ENABLED: 'Enabled',
   DISABLED: 'Disabled',
 };
